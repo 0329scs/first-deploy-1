@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const connection = require('../config/database.js')
+const crypto = require('crypto')
+const bcrypt = require('bcrypt');
 
 router.post('/', (req, res) => {
     console.log('req.body = ', req.body)
@@ -8,16 +10,20 @@ router.post('/', (req, res) => {
     const id = req.body.userInfo.username
     const pw = req.body.userInfo.password
 
-    connection.query(`SELECT LOGIN_ID FROM TB_MBR2 WHERE LOGIN_ID = ? AND LOGIN_PW = ?`
-        , [id, pw]
-        , (err, rows) => {
+
+    //아이디 비밀번호를 받아서
+    connection.query(`SELECT LOGIN_ID, LOGIN_PW FROM TB_MBR WHERE LOGIN_ID = ?`
+        , [id]
+        , async (err, rows) => {
     
     if (err) return res.status(401).json({err:'에러발생'})
 
-    if (rows.length) {
+    // 사용자가 올린 비밀번호 pw, 아이디로 검색한 비밀번호가 맞는지 확인한다
+    const result = await bcrypt.compare(pw, rows[0].LOGIN_PW)
+    // const result = await crypto.compare([pw, rows[0].LOGIN_PW])
 
-      console.log(rows)
-      
+    if (result) {
+
       const resData = {}
 
       resData.ok = true
