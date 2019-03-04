@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
   changePassword()
     .then(resPwd => {
       console.log(resPwd);
-      connection.query(`INSERT INTO TB_MBR2
+      connection.query(`INSERT INTO TB_MBR
                         (
                           LOGIN_ID
                         , LOGIN_PW

@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
     let result = false
 
     //아이디 비밀번호를 받아서
-    connection.query(`SELECT LOGIN_ID, LOGIN_PW, SALT FROM TB_MBR2 WHERE LOGIN_ID = ?`
+    connection.query(`SELECT LOGIN_ID, LOGIN_PW, SALT FROM TB_MBR WHERE LOGIN_ID = ?`
         , [id]
         , (err, rows) => {
     
