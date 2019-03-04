@@ -44,7 +44,7 @@ const upload = multer({
                     , DATE_FORMAT(REG_DT, "%Y-%m-%d %H:%i") REG_DT
                     , URDR
                     , DATE_FORMAT(UPD_DT, "%Y-%m-%d %H:%i") UPD_DT
-                    FROM TB_NOTICE2
+                    FROM TB_NOTICE
                     WHERE USE_YN = '1'
                     AND SUBJ LIKE '%${search}%'
                     ORDER BY NOTICE_MNG_NO DESC`, (err, rows) => {
@@ -95,7 +95,7 @@ router.post('/register', upload.single('image'), (req, res) => {
 
   console.log('form.subj = ', form.subj)
 
-  connection.query(`INSERT INTO TB_NOTICE2
+  connection.query(`INSERT INTO TB_NOTICE
                     (
                       NOTICE_TP
                       , SUBJ
@@ -178,7 +178,7 @@ router.post('/modify', upload.single('image'), (req, res) => {
     fs.unlinkSync(imgPath)
   }
 
-  connection.query(`UPDATE TB_NOTICE2 SET
+  connection.query(`UPDATE TB_NOTICE SET
                         NOTICE_TP    = ?
                       , SUBJ         = ?
                       , INIT         = ?
@@ -230,7 +230,7 @@ router.get('/detail/:no', (req, res) => {
                     , DATE_FORMAT(REG_DT, "%Y-%m-%d %H:%i") REG_DT
                     , URDR
                     , DATE_FORMAT(UPD_DT, "%Y-%m-%d %H:%i") UPD_DT
-                    FROM TB_NOTICE2
+                    FROM TB_NOTICE
                     WHERE NOTICE_MNG_NO = ?
                     AND USE_YN = '1'`
                     , [no], (err, rows) => {
@@ -328,7 +328,7 @@ router.get('/autoComplete', (req, res) => {
 
   let search = req.query.search
 
-  connection.query(`SELECT SUBJ FROM TB_NOTICE2 WHERE SUBJ LIKE '%${search}%'`, (err, rows) => {
+  connection.query(`SELECT SUBJ FROM TB_NOTICE WHERE SUBJ LIKE '%${search}%'`, (err, rows) => {
     
     if(err) return res.status(401).end(JSON.stringify({err: '에러발생'}))
     
