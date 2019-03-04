@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
     console.log('salt = ',rows[0].SALT)
     console.log('pw = ', rows[0].LOGIN_PW);
     
-    rypto.pbkdf2(pw, rows[0].SALT, 100000, 64, 'sha512', (err, key) => {
+    crypto.pbkdf2(pw, rows[0].SALT, 100000, 64, 'sha512', (err, key) => {
       // 결과값 변환
       console.log('password = ', key.toString('base64'))
       pw = key.toString('base64')
