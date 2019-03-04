@@ -321,5 +321,26 @@ router.post('/delete', (req, res) => {
   )
 })
 
+router.get('/autoComplete', (req, res) => {
+  console.log('==== autoComplete ====')
+
+  console.log('req.body = ', req.query.search)
+
+  let search = req.query.search
+
+  connection.query(`SELECT SUBJ FROM TB_NOTICE2 WHERE SUBJ LIKE '%${search}%'`, (err, rows) => {
+    
+    if(err) return res.status(401).end(JSON.stringify({err: '에러발생'}))
+    
+    console.log('rows = ', rows)
+
+    const resData = {}
+
+    resData.body = rows
+
+    res.json(resData)
+  })
+
+})
 
 module.exports = router

@@ -12,3 +12,5 @@ router.use('/login', login)
 router.use('/registration', registration)
 
 module.exports = router
+
+

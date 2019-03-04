@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
               // 결과값 변환
               console.log('password = ', key.toString('base64'))
               password = key.toString('base64')
+              
               reslove(password)
           })
         })
@@ -57,7 +58,7 @@ router.post('/', (req, res) => {
   
                             res.status(200)
                             res.end(JSON.stringify(resData))
-                          }
+                        }
       })
     })
 })
